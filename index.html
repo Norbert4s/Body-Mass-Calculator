@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css?family=Anton|Bree+Serif|Francois+One|Merriweather+Sans|Patua+One|Rubik" rel="stylesheet">
+  <title>BMI calculator</title>
+</head>
+
+<body>
+  <header>
+    <div class="first text-center">
+      <h1>Calculate your Body Mass Index</h1>
+      <button type="button" class="start-btn btn btn-light">Start</button>
+    </div>
+  </header>
+  <div class="second">
+    <h2 class='text-center'>Your biological gender</h2>
+    <div class="gender">
+      <div class="col-sm text-center female">
+        <img class='icon femaleIcon' src="icons/female.png" alt="">
+      </div>
+      <div class="male col-sm text-center">
+        <img class='icon maleIcon' src="icons/male.png" alt="">
+      </div>
+    </div>
+  </div>
+  <div class="imperial">
+    <form autocomplete="off" action="index.html" method="post" class="formI">
+      <div class="inputI">
+        <div class='switch'>
+          <h3 class='metricSwitch'><a href="#">metric</a></h3>
+          <h3 class='imperialSwitch'><a href="#">imperial</a></h3>
+        </div>
+        <div class="height">
+          <span class='heightSpan'>Height</span>
+          <p>Feet</p>
+          <input type="text" pattern='^[0-9]{1,1}$' name="feet" value="">
+          <p>Inches</p>
+          <input type="text" pattern='^[0-9]{1,2}$' name="inches" value="">
+        </div>
+        <div class="weight">
+          <span class='weightSpan'>Weight</span>
+          <p>Pounds</p>
+          <input type="text" pattern='^[0-9]{1,4}$' name="weight" value="">
+        </div>
+      </div>
+      <button type="submit" id="buttonImperial" class='btn btn-dark' name="buttonImperial">Submit</button>
+    </form>
+  </div>
+  <div class="metric">
+    <form autocomplete="off" action="index.html" method="post" class="formM">
+      <div class="inputM">
+        <div class='switch'>
+          <h3 class='metricSwitch'><a href="#">metric</a></h3>
+          <h3 class='imperialSwitch'><a href="#">imperial</a></h3>
+        </div>
+        <div class="height">
+          <span class="heightSpan">Height</span>
+          <p>Centimetres</p>
+          <input type="text" pattern='^[0-9]{2,3}$' name="centimetres" value="">
+        </div>
+        <div class="weight">
+          <span class="weightSpan">Weight</span>
+          <p>Kilograms</p>
+          <input type="text" pattern='^[0-9]{1,3}$' name="weight" value="">
+        </div>
+      </div>
+      <button type="submit" id="buttonMetric" class='btn btn-dark' name="buttonMetric">Submit</button>
+    </form>
+    <p><tt id="results"></tt></p>
+  </div>
+  <div class="final">
+    <h4 class='text-center'></h4>
+    <div class="text-center">
+      <img class='icon restart' src="icons/replay.png" alt="">
+    </div>
+  </div>
+
+
+  <script type="text/javascript">
+    $('.btn-light').click(function() {
+      $('.first').css('visibility', 'hidden');
+      $('.first').css('opacity', '0');
+      $('.second').css('visibility', 'visible');
+      $('.second').css('opacity', '1');
+    });
+
+    $('.male').click(function() {
+      var male = true;
+      var female = false;
+      console.log(male);
+      $('.second').css('transition-delay', '0s');
+      $('.second').css('visibility', 'hidden');
+      $('.second').css('opacity', '0');
+      $('.metric').css('visibility', 'visible');
+      $('.metric').css('opacity', '1');
+      $('.metricSwitch').css('transform', 'scale(1.4)');
+    });
+    $('.female').click(function() {
+      var female = true;
+      var male = false;
+      console.log(female);
+      $('.second').css('transition-delay', '0s');
+      $('.second').css('visibility', 'hidden');
+      $('.second').css('opacity', '0');
+      $('.metric').css('visibility', 'visible');
+      $('.metric').css('opacity', '1');
+      $('.metricSwitch').css('transform', 'scale(1.4)');
+    });
+
+    $('.imperialSwitch').click(function() {
+      $('.metric').css('visibility', 'hidden');
+      $('.metric').css('opacity', '0');
+      $('.imperial').css('visibility', 'visible');
+      $('.imperial').css('opacity', '1');
+      $('.metricSwitch').css('border-bottom', '4px solid transparent');
+      $('.metricSwitch').css('transform', 'scale(1.0)');
+      $('.imperialSwitch').css('transform', 'scale(1.4)');
+    })
+
+    $('.metricSwitch').click(function() {
+      $('.imperial').css('visibility', 'hidden');
+      $('.imperial').css('opacity', '0');
+      $('.metric').css('visibility', 'visible');
+      $('.metric').css('opacity', '1');
+      $('.imperialSwitch').css('border-bottom', '4px solid transparent');
+      $('.imperialSwitch').css('transform', 'scale(1.0)');
+      $('.metricSwitch').css('transform', 'scale(1.4)');
+    })
+
+    $('.restart').click(function() {
+      $('#buttonImperial').prop("disabled", false);
+      $('#buttonMetric').prop("disabled", false);
+      $('.final').css('visibility', 'hidden');
+      $('.final').css('opacity', '0');
+      $('.final').css('transition-delay', '0s');
+      $('.second').css('visibility', 'visible');
+      $('.second').css('opacity', '1');
+      $('h4').empty();
+      $('input').val('');
+      $('.imperialSwitch').css('transform', 'scale(1.0)');
+    });
+
+    $('.formM').submit(function(event) {
+      event.preventDefault();
+      $('.final').css('transition-delay', '0s');
+      var values = $(this).serializeArray()
+      jQuery.each(values, function(i, field) {
+        values[field.name] = field.value;
+      });
+
+      //Value Retrieval Function
+      var getValue = function(valueName) {
+        return values[valueName];
+      };
+
+      //Retrieve the Values
+      var weight = getValue('weight');
+      var height = getValue('centimetres');
+      height /= 100;
+      var bmi = weight / (height * height);
+      bmi = Math.round(bmi * 10) / 10;
+      var range;
+      if (bmi < 18.5) {
+        range = 'underweight';
+      } else if (bmi >= 18.5 && bmi < 25) {
+        range = 'normal';
+      } else if (bmi >= 25 && bmi < 30) {
+        range = 'overweight';
+      } else if (bmi >= 30 && bmi < 35) {
+        range = 'obese';
+      } else if (bmi >= 35 && bmi < 40) {
+        range = 'severely obese';
+      } else if (bmi >= 40 && bmi < 45) {
+        range = 'morbidly obese';
+      } else if (bmi >= 45) {
+        range = 'super obese';
+      }
+      if (getValue('weight') != '' && getValue('centimetres') != '') {
+        $('#buttonMetric').prop("disabled", true);
+        $('.metric').css('visibility', 'hidden');
+        $('.metric').css('opacity', '0');
+        $('.metric').css('transition-delay', '0s');
+        $('.final').css('visibility', 'visible');
+        $('.final').css('opacity', '1');
+        $('h4').append('Your BMI is <span class="range">' + bmi + '</span>, which is in ' + '<span class="range">' + range + '</span> range');
+        $('.range').css('text-transform', 'uppercase');
+        $('.range').css('font-size', '1.4em');
+        if (range === 'underweight') {
+          $('.range').css('color', '#FF2626');
+        } else if (range === 'normal') {
+          $('.range').css('color', '#0DFF09');
+        } else if (range === 'overweight') {
+          $('.range').css('color', '#FFBB3C');
+        } else if (range === 'obese') {
+          $('.range').css('color', '#FF5100');
+        } else if (range === 'severely obese') {
+          $('.range').css('color', '#CF2C00');
+        } else if (range === 'morbidly obese') {
+          $('.range').css('color', '#A90000');
+        } else if (range === 'super obese') {
+          $('.range').css('color', '#5F0000');
+        }
+      } else {
+        alert('Please fill in the fields');
+      }
+    });
+
+    $('.formI').submit(function(event) {
+      event.preventDefault();
+      var values = $(this).serializeArray()
+      jQuery.each(values, function(i, field) {
+        values[field.name] = field.value;
+      });
+
+      //Value Retrieval Function
+      var getValue = function(valueName) {
+        return values[valueName];
+      };
+
+      //Retrieve the Values
+      var weight = getValue('weight');
+      weight /= 2.2046;
+      var feet = getValue('feet');
+      var inches = getValue('inches');
+      var height = ((feet * 30.48) + (inches * 2.54)) / 100;
+
+      var bmi = weight / (height * height);
+      bmi = Math.round(bmi * 10) / 10;
+      var range;
+      if (bmi < 18.5) {
+        range = 'underweight';
+      } else if (bmi >= 18.5 && bmi < 25) {
+        range = 'normal';
+      } else if (bmi >= 25 && bmi < 30) {
+        range = 'overweight';
+      } else if (bmi >= 30 && bmi < 35) {
+        range = 'obese';
+      } else if (bmi >= 35 && bmi < 40) {
+        range = 'severely obese';
+      } else if (bmi >= 40 && bmi < 45) {
+        range = 'morbidly obese';
+      } else if (bmi >= 45) {
+        range = 'super obese';
+      }
+      if (getValue('weight') != '' && getValue('feet') != '' && getValue('inches') != '') {
+        $('#buttonImperial').prop("disabled", true);
+        $('.imperial').css('visibility', 'hidden');
+        $('.imperial').css('opacity', '0');
+        $('.imperial').css('transition-delay', '0s');
+        $('.final').css('visibility', 'visible');
+        $('.final').css('opacity', '1');
+        $('h4').append('Your BMI is <span class="range">' + bmi + '</span>, which is in ' + '<span class="range">' + range + '</span> range');
+        $('.range').css('text-transform', 'uppercase');
+        $('.range').css('font-size', '1.4em');
+        if (range === 'underweight') {
+          $('.range').css('color', '#FF2626');
+        } else if (range === 'normal') {
+          $('.range').css('color', '#0DFF09');
+        } else if (range === 'overweight') {
+          $('.range').css('color', '#FFBB3C');
+        } else if (range === 'obese') {
+          $('.range').css('color', '#FF5100');
+        } else if (range === 'severely obese') {
+          $('.range').css('color', '#CF2C00');
+        } else if (range === 'morbidly obese') {
+          $('.range').css('color', '#A90000');
+        } else if (range === 'super obese') {
+          $('.range').css('color', '#5F0000');
+        }
+      } else {
+        alert('Please fill in the fields');
+      }
+    });
+  </script>
+</body>
+
+</html>
